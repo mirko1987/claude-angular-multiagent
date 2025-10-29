@@ -1,6 +1,6 @@
 name: 'Claude Angular Multi-Agent Review'
 description: 'AI-powered code review for Angular projects using Claude Sonnet 4 with specialized agents for security, architecture, performance, and more'
-author: 'Your Name'
+author: 'Mirko Vitale'
 
 branding:
   icon: 'shield'
@@ -246,7 +246,7 @@ runs:
           }
 
           comment += '\n---\n';
-          comment += '*Powered by [Claude Angular Multi-Agent Review](https://github.com/YOUR_USERNAME/claude-angular-multiagent)*';
+          comment += '*Powered by [Claude Angular Multi-Agent Review](https://github.com/mirko1987/claude-angular-multiagent)*';
 
           // Post comment
           await github.rest.issues.createComment({

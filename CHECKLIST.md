@@ -12,7 +12,7 @@ Use this checklist when publishing your GitHub Action.
 - [ ] No console errors
 
 ### Documentation
-- [ ] Replace all `YOUR_USERNAME` with actual GitHub username in:
+- [ ] Replace all `mirko1987` with actual GitHub username in:
   - [ ] action.yml (line 3)
   - [ ] ACTION_README.md (all examples)
   - [ ] QUICK_START.md (workflow examples)
@@ -106,12 +106,12 @@ Use this checklist when publishing your GitHub Action.
 
 ### Key Files
 \`\`\`
-action.yml              # Action definition - REPLACE YOUR_USERNAME
+action.yml              # Action definition - REPLACE mirko1987
 run-action.js           # Runner script
-ACTION_README.md        # User documentation - REPLACE YOUR_USERNAME  
-QUICK_START.md          # Getting started - REPLACE YOUR_USERNAME
+ACTION_README.md        # User documentation - REPLACE mirko1987  
+QUICK_START.md          # Getting started - REPLACE mirko1987
 PUBLISHING.md           # Publishing guide
-example-usage.yml       # Workflow template - REPLACE YOUR_USERNAME
+example-usage.yml       # Workflow template - REPLACE mirko1987
 \`\`\`
 
 ### Key Commands
@@ -136,7 +136,7 @@ git push origin v1 --force
 
 ### Usage Example (After Publishing)
 \`\`\`yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: \${{ secrets.ANTHROPIC_API_KEY }}
 \`\`\`

@@ -49,7 +49,7 @@ claude-angular-multiagent/
    - Minimum \$5 recommended for testing
 
 2. **Update Placeholders**
-   Replace `YOUR_USERNAME` in these files:
+   Replace `mirko1987` in these files:
    - action.yml (author field)
    - ACTION_README.md (all usage examples)
    - example-usage.yml
@@ -67,7 +67,7 @@ claude-angular-multiagent/
 Follow the guide in **PUBLISHING.md**:
 
 1. **Prepare Repository**
-   - Update YOUR_USERNAME references
+   - Update mirko1987 references
    - Add LICENSE file
    - Commit all changes
 
@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: YOUR_USERNAME/claude-angular-multiagent@v1
+      - uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: \${{ secrets.ANTHROPIC_API_KEY }}
 \`\`\`
@@ -161,7 +161,7 @@ jobs:
 
 1. **API Credits Required**: Users need Anthropic API key with credits
 2. **Public Repository**: GitHub Actions must be in public repo (or GitHub Pro for private)
-3. **Your Username**: Remember to replace YOUR_USERNAME before publishing
+3. **Your Username**: Remember to replace mirko1987 before publishing
 4. **License**: Add appropriate LICENSE file before publishing
 5. **Testing**: Test the action in a real Angular project after publishing
 
@@ -169,7 +169,7 @@ jobs:
 
 Before publishing, ensure:
 
-- [ ] All YOUR_USERNAME placeholders replaced
+- [ ] All mirko1987 placeholders replaced
 - [ ] LICENSE file added
 - [ ] Tested locally (if you have API credits)
 - [ ] All documentation reviewed
@@ -194,7 +194,7 @@ Before publishing, ensure:
 ## 📞 Next Actions
 
 1. **Read PUBLISHING.md** - Follow the publishing guide
-2. **Replace YOUR_USERNAME** - Update all documentation
+2. **Replace mirko1987** - Update all documentation
 3. **Create v1.0.0 Tag** - Tag your release
 4. **Publish to Marketplace** - Make it public!
 5. **Share** - Announce on social media

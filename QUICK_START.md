@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: YOUR_USERNAME/claude-angular-multiagent@v1
+      - uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: \${{ secrets.ANTHROPIC_API_KEY }}
 \`\`\`

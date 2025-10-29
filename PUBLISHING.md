@@ -13,7 +13,7 @@ How to publish Claude Angular Multi-Agent Review as a GitHub Action.
 
 ### 1.1 Update References
 
-Replace all `YOUR_USERNAME` placeholders with your actual GitHub username:
+Replace all `mirko1987` placeholders with your actual GitHub username:
 
 ```bash
 # In action.yml
@@ -108,7 +108,7 @@ AI-powered code review for Angular projects using Claude Sonnet 4.
 ## Quick Start
 
 \`\`\`yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: \${{ secrets.ANTHROPIC_API_KEY }}
 \`\`\`
@@ -184,7 +184,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: YOUR_USERNAME/claude-angular-multiagent@v1
+      - uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: \${{ secrets.ANTHROPIC_API_KEY }}
 ```
@@ -210,7 +210,7 @@ AI-powered code review for Angular using Claude Sonnet 4:
 ✅ RxJS patterns
 ✅ Testing & accessibility
 
-Try it: https://github.com/YOUR_USERNAME/claude-angular-multiagent
+Try it: https://github.com/mirko1987/claude-angular-multiagent
 
 #Angular #AI #CodeReview
 ```
@@ -297,7 +297,7 @@ After publishing, monitor:
 ## Success Checklist
 
 - [ ] Repository is public
-- [ ] All YOUR_USERNAME replaced with actual username
+- [ ] All mirko1987 replaced with actual username
 - [ ] action.yml configured correctly
 - [ ] Documentation complete
 - [ ] Tests pass
@@ -315,7 +315,7 @@ After publishing, monitor:
 Users can now use it with:
 
 \`\`\`yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
 \`\`\`
 
 Happy publishing! 🚀

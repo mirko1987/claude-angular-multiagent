@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run AI Code Review
-        uses: YOUR_USERNAME/claude-angular-multiagent@v1
+        uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           review-mode: 'smart'
@@ -97,7 +97,7 @@ The action will automatically run and post a review comment!
 ### Basic Usage
 
 ```yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
@@ -105,7 +105,7 @@ The action will automatically run and post a review comment!
 ### Security-Focused Review
 
 ```yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
     review-mode: 'security'
@@ -115,7 +115,7 @@ The action will automatically run and post a review comment!
 ### Cost-Optimized Review
 
 ```yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
     review-mode: 'cost'
@@ -126,7 +126,7 @@ The action will automatically run and post a review comment!
 ### Comprehensive Review
 
 ```yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
     review-mode: 'all'
@@ -137,7 +137,7 @@ The action will automatically run and post a review comment!
 ### Custom File Pattern
 
 ```yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
     files-pattern: 'apps/**/src/**/*.ts'
@@ -146,7 +146,7 @@ The action will automatically run and post a review comment!
 ### Block PR on Critical Issues
 
 ```yaml
-- uses: YOUR_USERNAME/claude-angular-multiagent@v1
+- uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
     fail-on-critical: true
@@ -157,7 +157,7 @@ The action will automatically run and post a review comment!
 ```yaml
 - name: Run AI Review
   id: review
-  uses: YOUR_USERNAME/claude-angular-multiagent@v1
+  uses: mirko1987/claude-angular-multiagent@v1
   with:
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 
@@ -193,7 +193,7 @@ jobs:
 
       - name: Review (main branch)
         if: github.base_ref == 'main'
-        uses: YOUR_USERNAME/claude-angular-multiagent@v1
+        uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           review-mode: 'all'
@@ -201,7 +201,7 @@ jobs:
 
       - name: Review (other branches)
         if: github.base_ref != 'main'
-        uses: YOUR_USERNAME/claude-angular-multiagent@v1
+        uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           review-mode: 'smart'
@@ -221,7 +221,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: YOUR_USERNAME/claude-angular-multiagent@v1
+      - uses: mirko1987/claude-angular-multiagent@v1
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           review-mode: 'all'
@@ -286,9 +286,9 @@ Error: No files found matching pattern
 
 ## Support
 
-- 📖 [Full Documentation](https://github.com/YOUR_USERNAME/claude-angular-multiagent)
-- 🐛 [Report Issues](https://github.com/YOUR_USERNAME/claude-angular-multiagent/issues)
-- 💬 [Discussions](https://github.com/YOUR_USERNAME/claude-angular-multiagent/discussions)
+- 📖 [Full Documentation](https://github.com/mirko1987/claude-angular-multiagent)
+- 🐛 [Report Issues](https://github.com/mirko1987/claude-angular-multiagent/issues)
+- 💬 [Discussions](https://github.com/mirko1987/claude-angular-multiagent/discussions)
 
 ## License
 
