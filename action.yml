@@ -2,6 +2,7 @@ name: 'Claude Angular Multi-Agent Review'
 description: 'AI-powered code review for Angular projects using Claude Sonnet 4 with specialized agents for security, architecture, performance, and more'
 author: 'Mirko Vitale'
 
+# GitHub Marketplace Action
 branding:
   icon: 'shield'
   color: 'blue'
