@@ -1,0 +1,57 @@
+{
+  "name": "claude-angular-multiagent",
+  "version": "2.0.0",
+  "description": "Multi-agent Claude system for Angular code review",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "review": "tsx src/index.ts",
+    "review:smart": "tsx examples/smart-review.ts balanced",
+    "review:cost": "tsx examples/smart-review.ts cost",
+    "review:speed": "tsx examples/smart-review.ts speed",
+    "review:critical": "tsx examples/smart-review.ts critical",
+    "review:dynamic": "tsx examples/smart-review.ts dynamic",
+    "review:fast": "OPTIMIZE=true tsx src/index.ts",
+    "review:thorough": "ALL_AGENTS=true tsx src/index.ts",
+    "example": "tsx examples/smart-review.ts",
+    "example:performance": "tsx examples/performance-demo.ts",
+    "perf:basic": "tsx examples/performance-demo.ts basic",
+    "perf:pool": "tsx examples/performance-demo.ts pool",
+    "perf:incremental": "tsx examples/performance-demo.ts incremental",
+    "perf:complete": "tsx examples/performance-demo.ts complete",
+    "perf:compare": "tsx examples/performance-demo.ts compare",
+    "perf:all": "tsx examples/performance-demo.ts all",
+    "test": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "docker:build": "docker build -t claude-angular-review .",
+    "docker:run": "docker run -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY claude-angular-review"
+  },
+  "keywords": ["angular", "code-review", "claude", "ai", "multi-agent"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.4.5",
+    "glob": "^10.3.12",
+    "inquirer": "^9.2.17",
+    "ora": "^8.0.1",
+    "p-limit": "^5.0.0",
+    "redis": "^4.6.13",
+    "typescript": "^5.4.3",
+    "@typescript-eslint/parser": "^7.3.1",
+    "@angular-eslint/eslint-plugin": "^17.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "tsx": "^4.7.1",
+    "vitest": "^1.4.0",
+    "nodemon": "^3.1.0",
+    "@types/inquirer": "^9.0.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

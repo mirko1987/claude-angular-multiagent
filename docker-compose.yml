@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  angular-multiagent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: angular-multiagent
+    environment:
+      - NODE_ENV=production
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-20250514}
+      - ENABLE_CACHING=${ENABLE_CACHING:-true}
+      - MAX_CONCURRENT_AGENTS=${MAX_CONCURRENT_AGENTS:-3}
+      - RATE_LIMIT_REQUESTS_PER_MINUTE=${RATE_LIMIT_REQUESTS_PER_MINUTE:-50}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    volumes:
+      # Mount your Angular project for analysis
+      - ./project-to-analyze:/workspace:ro
+      # Mount output directory for reports
+      - ./reports:/app/reports
+    restart: unless-stopped
+    networks:
+      - multiagent-network
+
+  # Optional: Redis for distributed caching
+  redis:
+    image: redis:7-alpine
+    container_name: multiagent-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - multiagent-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+networks:
+  multiagent-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local

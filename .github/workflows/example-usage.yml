@@ -1,0 +1,81 @@
+# Example workflow for using Claude Angular Multi-Agent Review
+# Copy this file to your Angular project's .github/workflows/ directory
+
+name: AI Code Review
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**/*.ts'
+      - '!src/**/*.spec.ts'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write  # Required to post comments
+
+jobs:
+  ai-review:
+    name: Claude AI Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for differential analysis
+
+      - name: Run AI Code Review
+        id: review
+        uses: YOUR_USERNAME/claude-angular-multiagent@v1
+        with:
+          # Required: Your Anthropic API key
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          # Optional: Review mode (smart, security, critical, cost, speed, all)
+          review-mode: 'smart'
+
+          # Optional: Files to review (glob pattern)
+          files-pattern: 'src/**/*.ts'
+
+          # Optional: Budget constraints
+          cost-budget: '0.50'
+          time-budget: '90000'
+
+          # Optional: Concurrency (1-6)
+          max-concurrent: '3'
+
+          # Optional: Feature flags
+          enable-caching: 'true'
+          enable-differential: 'true'
+          enable-streaming: 'false'
+
+          # Optional: Post results as PR comment
+          post-comment: 'true'
+
+          # Optional: Fail workflow on critical issues
+          fail-on-critical: 'false'
+
+      - name: Display Results
+        if: always()
+        run: |
+          echo "📊 Review Results:"
+          echo "   Total Issues: ${{ steps.review.outputs.total-issues }}"
+          echo "   Critical Issues: ${{ steps.review.outputs.critical-issues }}"
+          echo "   Suggestions: ${{ steps.review.outputs.suggestions }}"
+          echo "   Analysis Time: ${{ steps.review.outputs.analysis-time }}ms"
+          echo "   Estimated Cost: \$${{ steps.review.outputs.estimated-cost }}"
+          echo "   Review Passed: ${{ steps.review.outputs.review-passed }}"
+
+      - name: Upload Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-review-results
+          path: review-results.json
+          retention-days: 30

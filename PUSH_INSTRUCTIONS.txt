@@ -1,0 +1,57 @@
+🚀 ISTRUZIONI PER IL PUSH SU GITHUB
+===================================
+
+Il repository è stato preparato e committato localmente.
+Ora devi fare il push manualmente con autenticazione.
+
+OPZIONE 1: Push con HTTPS (Richiede Personal Access Token)
+-----------------------------------------------------------
+
+1. Apri il terminale nella cartella del progetto:
+   cd /Users/mirkovitale/Desktop/develop/claude-angular-multiagent
+
+2. Esegui il push:
+   git push -u origin main
+
+3. Quando richiesto, inserisci:
+   Username: mirko1987
+   Password: [il tuo GitHub Personal Access Token]
+
+   ⚠️ NOTA: GitHub non accetta più password normali!
+   Devi creare un Personal Access Token:
+   - Vai su https://github.com/settings/tokens
+   - Click "Generate new token" (classic)
+   - Seleziona scope: "repo" (full control)
+   - Copia il token e usalo come password
+
+
+OPZIONE 2: Cambia a SSH (Consigliato se hai chiavi SSH)
+--------------------------------------------------------
+
+1. Cambia il remote a SSH:
+   git remote set-url origin git@github.com:mirko1987/claude-angular-multiagent.git
+
+2. Fai il push:
+   git push -u origin main
+
+
+OPZIONE 3: Push manuale via GitHub Desktop
+-------------------------------------------
+
+1. Apri GitHub Desktop
+2. File → Add Local Repository
+3. Seleziona: /Users/mirkovitale/Desktop/develop/claude-angular-multiagent
+4. Click "Publish repository"
+
+
+VERIFICA DOPO IL PUSH
+----------------------
+
+Vai su: https://github.com/mirko1987/claude-angular-multiagent
+
+Dovresti vedere tutti i file caricati!
+
+===================================
+
+Scegli l'opzione che preferisci e segui i passi.
+Se hai problemi, fammi sapere!

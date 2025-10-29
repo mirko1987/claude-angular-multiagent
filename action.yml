@@ -1,0 +1,268 @@
+name: 'Claude Angular Multi-Agent Review'
+description: 'AI-powered code review for Angular projects using Claude Sonnet 4 with specialized agents for security, architecture, performance, and more'
+author: 'Your Name'
+
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  anthropic-api-key:
+    description: 'Anthropic API key for Claude AI'
+    required: true
+
+  files-pattern:
+    description: 'Glob pattern for files to review (default: src/**/*.ts)'
+    required: false
+    default: 'src/**/*.ts'
+
+  cost-budget:
+    description: 'Maximum cost budget in dollars (default: 0.50)'
+    required: false
+    default: '0.50'
+
+  time-budget:
+    description: 'Maximum time budget in milliseconds (default: 90000)'
+    required: false
+    default: '90000'
+
+  max-concurrent:
+    description: 'Maximum concurrent agents (1-6, default: 3)'
+    required: false
+    default: '3'
+
+  review-mode:
+    description: 'Review mode: smart, cost, speed, or critical (default: smart)'
+    required: false
+    default: 'smart'
+
+  enable-caching:
+    description: 'Enable caching to avoid re-analyzing unchanged files (default: true)'
+    required: false
+    default: 'true'
+
+  enable-streaming:
+    description: 'Enable real-time streaming responses (default: false)'
+    required: false
+    default: 'false'
+
+  enable-differential:
+    description: 'Only analyze changed files (default: true)'
+    required: false
+    default: 'true'
+
+  post-comment:
+    description: 'Post results as PR comment (default: true)'
+    required: false
+    default: 'true'
+
+  fail-on-critical:
+    description: 'Fail the workflow if critical issues are found (default: false)'
+    required: false
+    default: 'false'
+
+outputs:
+  total-issues:
+    description: 'Total number of issues found'
+
+  critical-issues:
+    description: 'Number of critical issues found'
+
+  suggestions:
+    description: 'Number of suggestions provided'
+
+  analysis-time:
+    description: 'Analysis time in milliseconds'
+
+  estimated-cost:
+    description: 'Estimated cost in dollars'
+
+  review-passed:
+    description: 'Whether the review passed (true/false)'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.action_path }}/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles(format('{0}/package-lock.json', github.action_path)) }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        if [ ! -d "node_modules" ]; then
+          echo "📦 Installing dependencies..."
+          npm ci
+        else
+          echo "✅ Dependencies already installed"
+        fi
+
+    - name: Build project
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        if [ ! -d "dist" ]; then
+          echo "🔨 Building project..."
+          npm run build
+        else
+          echo "✅ Project already built"
+        fi
+
+    - name: Run AI Code Review
+      id: review
+      shell: bash
+      env:
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        COST_BUDGET: ${{ inputs.cost-budget }}
+        TIME_BUDGET: ${{ inputs.time-budget }}
+        MAX_CONCURRENT_AGENTS: ${{ inputs.max-concurrent }}
+        ENABLE_CACHING: ${{ inputs.enable-caching }}
+        ENABLE_STREAMING: ${{ inputs.enable-streaming }}
+        ENABLE_DIFFERENTIAL: ${{ inputs.enable-differential }}
+        FILES_PATTERN: ${{ inputs.files-pattern }}
+        REVIEW_MODE: ${{ inputs.review-mode }}
+      run: |
+        cd ${{ github.action_path }}
+
+        echo "🚀 Starting Claude Angular Multi-Agent Review"
+        echo "Mode: $REVIEW_MODE"
+        echo "Files pattern: $FILES_PATTERN"
+        echo "Cost budget: \$$COST_BUDGET"
+        echo "Time budget: ${TIME_BUDGET}ms"
+        echo ""
+
+        # Run the review using the compiled script
+        node run-action.js "$GITHUB_WORKSPACE" "$FILES_PATTERN" > review-output.json
+
+        # Parse results
+        TOTAL_ISSUES=$(cat review-output.json | jq -r '.summary.totalIssues // 0')
+        CRITICAL_ISSUES=$(cat review-output.json | jq -r '.summary.criticalIssues // 0')
+        SUGGESTIONS=$(cat review-output.json | jq -r '.summary.suggestions // 0')
+        ANALYSIS_TIME=$(cat review-output.json | jq -r '.summary.analysisTime // 0')
+        ESTIMATED_COST=$(cat review-output.json | jq -r '.metrics.estimatedCost // 0')
+
+        # Set outputs
+        echo "total-issues=$TOTAL_ISSUES" >> $GITHUB_OUTPUT
+        echo "critical-issues=$CRITICAL_ISSUES" >> $GITHUB_OUTPUT
+        echo "suggestions=$SUGGESTIONS" >> $GITHUB_OUTPUT
+        echo "analysis-time=$ANALYSIS_TIME" >> $GITHUB_OUTPUT
+        echo "estimated-cost=$ESTIMATED_COST" >> $GITHUB_OUTPUT
+
+        # Determine if review passed
+        if [ "$CRITICAL_ISSUES" -eq 0 ]; then
+          echo "review-passed=true" >> $GITHUB_OUTPUT
+        else
+          echo "review-passed=false" >> $GITHUB_OUTPUT
+        fi
+
+        # Save full results for comment
+        cat review-output.json > ${{ github.action_path }}/review-results.json
+
+        echo ""
+        echo "✅ Review completed:"
+        echo "   Total issues: $TOTAL_ISSUES"
+        echo "   Critical issues: $CRITICAL_ISSUES"
+        echo "   Suggestions: $SUGGESTIONS"
+        echo "   Time: ${ANALYSIS_TIME}ms"
+        echo "   Cost: \$$ESTIMATED_COST"
+
+    - name: Post PR Comment
+      if: inputs.post-comment == 'true' && github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ github.token }}
+        script: |
+          const fs = require('fs');
+          const results = JSON.parse(fs.readFileSync('${{ github.action_path }}/review-results.json', 'utf8'));
+
+          // Generate comment
+          let comment = '## 🤖 Claude AI Code Review Results\n\n';
+          comment += '### Summary\n';
+          comment += `- **Total Issues:** ${results.summary.totalIssues}\n`;
+          comment += `- **Critical Issues:** ${results.summary.criticalIssues}\n`;
+          comment += `- **Suggestions:** ${results.summary.suggestions}\n`;
+          comment += `- **Files Analyzed:** ${results.summary.filesAnalyzed}\n`;
+          comment += `- **Analysis Time:** ${(results.summary.analysisTime / 1000).toFixed(1)}s\n`;
+          comment += `- **Estimated Cost:** $${results.metrics.estimatedCost.toFixed(4)}\n\n`;
+
+          // Add agent results
+          if (results.reviews && results.reviews.length > 0) {
+            comment += '### Findings by Agent\n\n';
+
+            for (const review of results.reviews) {
+              if (review.findings.length > 0) {
+                comment += `#### ${review.agentName}\n`;
+                comment += `Score: ${review.metrics.score}/100 | `;
+                comment += `Findings: ${review.findings.length} | `;
+                comment += `Time: ${review.metrics.executionTime}ms\n\n`;
+
+                const criticalFindings = review.findings.filter(f => f.severity === 'critical');
+                const majorFindings = review.findings.filter(f => f.severity === 'major');
+                const minorFindings = review.findings.filter(f => f.severity === 'minor');
+
+                if (criticalFindings.length > 0) {
+                  comment += '**Critical Issues:**\n';
+                  criticalFindings.slice(0, 5).forEach((f, i) => {
+                    comment += `${i + 1}. 🔴 **${f.file}:${f.line || '?'}** - ${f.message}\n`;
+                  });
+                  if (criticalFindings.length > 5) {
+                    comment += `... and ${criticalFindings.length - 5} more critical issues\n`;
+                  }
+                  comment += '\n';
+                }
+
+                if (majorFindings.length > 0) {
+                  comment += '**Major Issues:**\n';
+                  majorFindings.slice(0, 3).forEach((f, i) => {
+                    comment += `${i + 1}. 🟡 **${f.file}:${f.line || '?'}** - ${f.message}\n`;
+                  });
+                  if (majorFindings.length > 3) {
+                    comment += `... and ${majorFindings.length - 3} more major issues\n`;
+                  }
+                  comment += '\n';
+                }
+
+                if (minorFindings.length > 0 && minorFindings.length <= 5) {
+                  comment += '**Minor Issues:**\n';
+                  minorFindings.forEach((f, i) => {
+                    comment += `${i + 1}. ⚪ **${f.file}:${f.line || '?'}** - ${f.message}\n`;
+                  });
+                  comment += '\n';
+                } else if (minorFindings.length > 5) {
+                  comment += `**Minor Issues:** ${minorFindings.length} found\n\n`;
+                }
+              }
+            }
+          }
+
+          comment += '\n---\n';
+          comment += '*Powered by [Claude Angular Multi-Agent Review](https://github.com/YOUR_USERNAME/claude-angular-multiagent)*';
+
+          // Post comment
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: comment
+          });
+
+    - name: Check for critical issues
+      if: inputs.fail-on-critical == 'true'
+      shell: bash
+      run: |
+        CRITICAL_ISSUES=${{ steps.review.outputs.critical-issues }}
+        if [ "$CRITICAL_ISSUES" -gt 0 ]; then
+          echo "❌ Review failed: $CRITICAL_ISSUES critical issues found"
+          exit 1
+        fi
+        echo "✅ No critical issues found"
