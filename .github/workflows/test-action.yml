@@ -1,0 +1,39 @@
+name: Test AI Code Review
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**/*.ts'
+      - 'test/**/*.ts'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test-review:
+    name: Test Claude AI Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run AI Code Review
+        uses: mirko1987/claude-angular-multiagent@v1
+        with:
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          review-mode: 'smart'
+          cost-budget: '0.20'
+          time-budget: '60000'
+          post-comment: true
+          fail-on-critical: false
+
+      - name: Display test message
+        run: |
+          echo "✅ Action test completed!"
+          echo "Check the PR comment for AI review results"
