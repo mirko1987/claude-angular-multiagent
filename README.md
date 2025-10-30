@@ -360,6 +360,7 @@ npm test
 - **[Quick Start Guide](QUICK_START.md)** - Get started in 5 minutes
 - **[Action Documentation](ACTION_README.md)** - Complete GitHub Action usage guide
 - **[User Tutorial](USER_TUTORIAL.md)** - Step-by-step tutorial with examples
+- **[Changelog](CHANGELOG.md)** - Version history and release notes
 - **[Publishing Guide](PUBLISHING.md)** - For contributors
 
 ## 🤝 Contributing
