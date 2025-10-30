@@ -28,7 +28,7 @@ export class SmartScheduler {
   constructor(config: SchedulerConfig = {}) {
     this.logger = new Logger('SmartScheduler');
     this.config = {
-      maxConcurrent: config.maxConcurrent || parseInt(process.env.MAX_CONCURRENT_AGENTS || '3'),
+      maxConcurrent: config.maxConcurrent || parseInt(process.env.MAX_CONCURRENT_AGENTS || '6'),
       costBudget: config.costBudget || 1.0, // $1 default
       timeBudget: config.timeBudget || 120000, // 2 minutes
       enableEarlyStop: config.enableEarlyStop ?? true,

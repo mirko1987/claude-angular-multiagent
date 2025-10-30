@@ -28,9 +28,9 @@ inputs:
     default: '90000'
 
   max-concurrent:
-    description: 'Maximum concurrent agents (1-6, default: 3)'
+    description: 'Maximum concurrent agents (1-6, default: 6)'
     required: false
-    default: '3'
+    default: '6'
 
   review-mode:
     description: 'Review mode: smart, cost, speed, or critical (default: smart)'

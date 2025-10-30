@@ -31,7 +31,7 @@ export class SmartOrchestrator extends AgentOrchestrator {
     super(config.maxConcurrent);
 
     this.config = {
-      maxConcurrent: config.maxConcurrent || 3,
+      maxConcurrent: config.maxConcurrent || 6,
       costBudget: config.costBudget || 0.50, // $0.50 default budget
       timeBudget: config.timeBudget || 120000, // 2 minutes
       enableEarlyStop: config.enableEarlyStop ?? true,
